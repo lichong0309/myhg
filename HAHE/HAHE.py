@@ -116,6 +116,7 @@ if __name__ == '__main__':
         feature_list=[]
         homo_encoder_list=[]
         print('Training multiple meta path')
+        print("Embedding Start...")
         for meta_path in meta_list:
             if args.data=='DBLP':
                 dir = './dataset/DBLP/' + meta_path + '.txt'
@@ -130,6 +131,7 @@ if __name__ == '__main__':
             feature_list.append(fea)
             num_features=num_nodes
             print('Nodes:',num_nodes,'Features:',num_features)
+        print("Embedding finshing...")
 
         for i in range(meta_num):
             homo_encoder = HomoAttention(features=feature_list[i], num_sample=args.num_sample,  cuda=args.cuda,  nbr_atten=args.nbr_atten, embed_dim=args.homo_dim,feature_dim=num_nodes)
