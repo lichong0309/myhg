@@ -63,12 +63,15 @@ class HANLayer(nn.Module):
         # One GAT layer for each meta path based adjacency matrix
         self.gat_layers = nn.ModuleList()
         for i in range(len(meta_paths)):
-            temp_time_start = time.time()
-            self.gat_layers.append(GATConv(in_size, out_size, layer_num_heads,
-                                           dropout, dropout, activation=F.elu,
-                                           allow_zero_in_degree=True))
-            temp_time_fin = time.time()
-            inter_node_time = inter_node_time + temp_time_fin - temp_time_start
+            if i == 0:
+                temp_time_start = time.time()
+                self.gat_layers.append(l = GATConv(in_size, out_size, layer_num_heads,
+                                            dropout, dropout, activation=F.elu,
+                                            allow_zero_in_degree=True))
+                temp_time_fin = time.time()
+                inter_node_time = inter_node_time + temp_time_fin - temp_time_start
+            else:
+                self.get_layers.append(l)
         print("inter_node_time:", inter_node_time)
         self.semantic_attention = SemanticAttention(in_size=out_size * layer_num_heads)
         self.meta_paths = list(tuple(meta_path) for meta_path in meta_paths)

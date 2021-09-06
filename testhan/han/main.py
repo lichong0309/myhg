@@ -43,7 +43,7 @@ def main(args):
 
     if args['hetero']:
         from model_hetero import HAN
-        model = HAN(meta_paths=[['pa', 'ap']],
+        model = HAN(meta_paths=[['pa', 'ap'], ['pf', 'fp']],
                     in_size=features.shape[1],
                     hidden_size=args['hidden_units'],
                     out_size=num_classes,
