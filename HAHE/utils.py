@@ -141,7 +141,7 @@ def get_adj(path):
     for i in range(node_num):
         if adj_mat[i,i]==0:
             adj_mat[i, i] = 1
-    return adj_mat, adj_lists
+    return adj_mat, adj_lists, time_load
 
 
 def get_adj_mat(path,name):

@@ -109,7 +109,7 @@ if __name__ == '__main__':
         label_dir = './dataset/DBLP/label2.txt'
         num_class, num_nodes, labels = get_label(label_dir)
         print('Nodes:', num_nodes,'Class:',num_class)
-        meta_list=['APA','APVPA']
+        meta_list=['APA','APVPA','PAA','APPA','APPVA']
         meta_num = len(meta_list)
 
     if args.meta == None:
@@ -124,18 +124,17 @@ if __name__ == '__main__':
             if args.data=='DBLP':
                 dir = './dataset/DBLP/' + meta_path + '.txt'
             
+            start_embedding_start = time.time()
 
-            adj, adj_lists = get_adj(dir)
+            adj, adj_lists, time_load  = get_adj(dir)
             adj = F.normalize(torch.FloatTensor(adj),p=2,dim=1)
 
             adj_lists_list.append(adj_lists)
 
-            start_embedding_start = time.time()
-
             fea = nn.Embedding(num_nodes, num_nodes)
 
             Start_embeding_fin = time.time()
-            start_time = start_time + Start_embeding_fin - start_embedding_start
+            start_time = start_time + Start_embeding_fin - start_embedding_start - time_load
 
             fea.weight = nn.Parameter(torch.FloatTensor(adj), requires_grad=False)
             feature_list.append(fea)
