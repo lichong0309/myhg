@@ -85,7 +85,7 @@ class HANLayer(nn.Module):
             for meta_path in self.meta_paths:
                 self._cached_coalesced_graph[meta_path] = dgl.metapath_reachable_graph(
                         g, meta_path)
-            print("test:",self._cached_coalesced_graph[1])
+    
 
         for i, meta_path in enumerate(self.meta_paths):
             new_g = self._cached_coalesced_graph[meta_path]

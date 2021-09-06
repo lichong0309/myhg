@@ -11,6 +11,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from dgl.nn.pytorch import GATConv
+import time
 
 from dgl.sampling import RandomWalkNeighborSampler
 from sklearn.metrics import f1_score
@@ -49,11 +50,16 @@ class HANLayer(torch.nn.Module):
         super(HANLayer, self).__init__()
 
         # One GAT layer for each meta path based adjacency matrix
+        inter_node_time = 0.0
         self.gat_layers = nn.ModuleList()
         for i in range(num_metapath):
+            temp_time_start = time.time()
             self.gat_layers.append(GATConv(in_size, out_size, layer_num_heads,
                                            dropout, dropout, activation=F.elu,
                                            allow_zero_in_degree=True))
+            temp_time_fin = time.time()
+            inter_node_time = inter_node_time + temp_time_fin - temp_time_start
+        print("inter_node_time:", inter_node_time)
         self.semantic_attention = SemanticAttention(in_size=out_size * layer_num_heads)
         self.num_metapath = num_metapath
 
