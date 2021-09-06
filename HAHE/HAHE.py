@@ -138,8 +138,8 @@ if __name__ == '__main__':
             num_features=num_nodes
             print('Nodes:',num_nodes,'Features:',num_features)
         print("Embedding finshing...")
-        fin_time = time.time()
-        time_1 = fin_time - start_time
+        # fin_time = time.time()
+        time_1 = start_time
         print("Embedding time:", time_1)
 
         for i in range(meta_num):
