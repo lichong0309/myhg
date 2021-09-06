@@ -109,7 +109,7 @@ if __name__ == '__main__':
         label_dir = './dataset/DBLP/label2.txt'
         num_class, num_nodes, labels = get_label(label_dir)
         print('Nodes:', num_nodes,'Class:',num_class)
-        meta_list=['APA','APPA','APVPA']
+        meta_list=['APA','APPA']
         meta_num = len(meta_list)
 
     if args.meta == None:
