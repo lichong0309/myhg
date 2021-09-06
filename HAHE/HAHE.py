@@ -130,8 +130,11 @@ if __name__ == '__main__':
             adj = F.normalize(torch.FloatTensor(adj),p=2,dim=1)
 
             adj_lists_list.append(adj_lists)
-
+            time_temp = time.time()
             fea = nn.Embedding(num_nodes, num_nodes)
+            time_temp_2 = time.time()
+            time_embe = time_temp_2 - time_temp
+            print("test:",time_embe)
 
             Start_embeding_fin = time.time()
             start_time = start_time + Start_embeding_fin - start_embedding_start - time_load
