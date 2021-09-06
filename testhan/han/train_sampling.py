@@ -260,7 +260,7 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--seed', type=int, default=1,
                         help='Random seed')
     parser.add_argument('--batch_size', type=int, default=32)
-    parser.add_argument('--num_neighbors', type=int, default=20)
+    parser.add_argument('--num_neighbors', type=int, default=5)
     parser.add_argument('--lr', type=float, default=0.001)
     parser.add_argument('--num_heads', type=list, default=[8])
     parser.add_argument('--hidden_units', type=int, default=8)
