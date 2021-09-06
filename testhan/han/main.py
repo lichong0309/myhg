@@ -86,7 +86,7 @@ def main(args):
         if early_stop:
             break
     fin_EndtoEnd_time = time.time()
-    End_to_End_time = (fin_EndtoEnd_time - start_EndtoEnd_time) / epoch
+    End_to_End_time = (fin_EndtoEnd_time - start_EndtoEnd_time) 
     print("End-to-End time:", End_to_End_time)
 
     stopper.load_checkpoint(model)
