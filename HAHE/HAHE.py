@@ -118,7 +118,8 @@ if __name__ == '__main__':
         homo_encoder_list=[]
         print('Training multiple meta path')
         print("Embedding Start...")
-        start_time = time.time()
+        # start_time = time.time()
+        start_time = 0 
         for meta_path in meta_list:
             if args.data=='DBLP':
                 dir = './dataset/DBLP/' + meta_path + '.txt'
@@ -128,7 +129,10 @@ if __name__ == '__main__':
             adj = F.normalize(torch.FloatTensor(adj),p=2,dim=1)
 
             adj_lists_list.append(adj_lists)
+            start_embedding_start = time.time()
             fea = nn.Embedding(num_nodes, num_nodes)
+            Start_embeding_fin = time.time()
+            start_time = start_time + Start_embeding_fin - start_embedding_start
             fea.weight = nn.Parameter(torch.FloatTensor(adj), requires_grad=False)
             feature_list.append(fea)
             num_features=num_nodes
