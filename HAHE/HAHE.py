@@ -9,6 +9,7 @@ from sklearn.metrics import f1_score
 from utils import multilabel_f1,get_adj,get_adj_mat,get_label,get_label2
 from nbr_atten import HomoAttention
 from meta_atten import Hete_self
+import time
 
 
 class HAHE_train(nn.Module):
@@ -117,6 +118,7 @@ if __name__ == '__main__':
         homo_encoder_list=[]
         print('Training multiple meta path')
         print("Embedding Start...")
+        start_time = time.time()
         for meta_path in meta_list:
             if args.data=='DBLP':
                 dir = './dataset/DBLP/' + meta_path + '.txt'
@@ -132,6 +134,9 @@ if __name__ == '__main__':
             num_features=num_nodes
             print('Nodes:',num_nodes,'Features:',num_features)
         print("Embedding finshing...")
+        fin_time = time.time()
+        time_1 = fin_time - start_time
+        print("Embedding time:", time_1)
 
         for i in range(meta_num):
             homo_encoder = HomoAttention(features=feature_list[i], num_sample=args.num_sample,  cuda=args.cuda,  nbr_atten=args.nbr_atten, embed_dim=args.homo_dim,feature_dim=num_nodes)
@@ -167,6 +172,7 @@ if __name__ == '__main__':
     train_index = list(rand_indices[:round(num_nodes * train_percent)])
     test_index = list(rand_indices[round(num_nodes * train_percent):])
 
+    start_2_time = time.time()
     for epoch in range(args.epoch):
         hahe_train.train()
         optimizer.zero_grad()
@@ -185,6 +191,11 @@ if __name__ == '__main__':
         f1_score_macro = f1_score(labels[np.array(test_index)], test_output.data.cpu().numpy().argmax(axis=1),
                                     average='macro')
         print( epoch,loss.detach().cpu().numpy(), f1_score_micro,f1_score_macro)
+    fin_2_time = time.time()
+    time_2 = fin_2_time - start_2_time
+    time_2 = time_2 / epoch
+    print("training time:", time_2)
+    
         
 
     if args.meta!=None:
