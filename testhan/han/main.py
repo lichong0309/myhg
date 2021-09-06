@@ -66,7 +66,7 @@ def main(args):
                                  weight_decay=args['weight_decay'])
 
     start_EndtoEnd_time = time.time()
-    for epoch in range(args['num_epochs']):
+    for epoch in range(1):
         model.train()
         logits = model(g, features)
         loss = loss_fcn(logits[train_mask], labels[train_mask])
