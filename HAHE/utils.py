@@ -1,5 +1,6 @@
 #encoding:utf-8
 import numpy as np
+import time 
 from scipy.io import loadmat
 from scipy.sparse import csc_matrix
 from sklearn.preprocessing import normalize
@@ -122,7 +123,11 @@ def adj2Lap(adj):
 
 
 def get_adj(path):
+    start = time.time()
     edge_mat = np.loadtxt(path, dtype=int)
+    fin = time.time()
+    time_load = fin - start
+    print("load time:", time_load)
     node_num = int(np.max(edge_mat)) + 1
     adj_mat = np.zeros((node_num, node_num), dtype=int)
     adj_lists = defaultdict(set)
