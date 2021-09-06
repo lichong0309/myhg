@@ -63,15 +63,12 @@ class HANLayer(nn.Module):
         # One GAT layer for each meta path based adjacency matrix
         self.gat_layers = nn.ModuleList()
         for i in range(len(meta_paths)):
-            if i == 0:
-                temp_time_start = time.time()
-                self.gat_layers.append(l = GATConv(in_size, out_size, layer_num_heads,
-                                            dropout, dropout, activation=F.elu,
-                                            allow_zero_in_degree=True))
-                temp_time_fin = time.time()
-                inter_node_time = inter_node_time + temp_time_fin - temp_time_start
-            else:
-                self.get_layers.append(l)
+            temp_time_start = time.time()
+            self.gat_layers.append(GATConv(in_size, out_size, layer_num_heads,
+                                           dropout, dropout, activation=F.elu,
+                                           allow_zero_in_degree=True))
+            temp_time_fin = time.time()
+            inter_node_time = inter_node_time + temp_time_fin - temp_time_start
         print("inter_node_time:", inter_node_time)
         self.semantic_attention = SemanticAttention(in_size=out_size * layer_num_heads)
         self.meta_paths = list(tuple(meta_path) for meta_path in meta_paths)
@@ -85,9 +82,13 @@ class HANLayer(nn.Module):
         if self._cached_graph is None or self._cached_graph is not g:
             self._cached_graph = g
             self._cached_coalesced_graph.clear()
+            time_temp_graph = time.time()
             for meta_path in self.meta_paths:
                 self._cached_coalesced_graph[meta_path] = dgl.metapath_reachable_graph(
                         g, meta_path)
+            end_time_graph = time.time()
+            time_graph = end_time_graph - time_temp_graph 
+            print("graph generated time:",time_graph)
     
 
         for i, meta_path in enumerate(self.meta_paths):
