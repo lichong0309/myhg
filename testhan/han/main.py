@@ -2,6 +2,7 @@ import torch
 from sklearn.metrics import f1_score
 
 from utils import load_data, EarlyStopping
+import time
 
 def score(logits, labels):
     _, indices = torch.max(logits, dim=1)
@@ -64,6 +65,7 @@ def main(args):
     optimizer = torch.optim.Adam(model.parameters(), lr=args['lr'],
                                  weight_decay=args['weight_decay'])
 
+    start_EndtoEnd_time = time.time()
     for epoch in range(args['num_epochs']):
         model.train()
         logits = model(g, features)
@@ -83,6 +85,9 @@ def main(args):
 
         if early_stop:
             break
+    fin_EndtoEnd_time = time.time()
+    End_to_End_time = (fin_EndtoEnd_time - start_EndtoEnd_time) / epoch
+    print("End-to-End time:", End_to_End_time)
 
     stopper.load_checkpoint(model)
     test_loss, test_acc, test_micro_f1, test_macro_f1 = evaluate(model, g, features, labels, test_mask, loss_fcn)
